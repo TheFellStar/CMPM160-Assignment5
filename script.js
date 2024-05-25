@@ -1,6 +1,9 @@
-import * as THREE from './node_modules/three/build/three.module.js';
-import {OBJLoader} from './node_modules/three/build/OBJLoader.js';
-import { MTLLoader } from './node_modules/three/build/MTLLoader.js';
+//import * as THREE from './node_modules/three/build/three.module.js';
+import * as THREE from "three";
+//import {OBJLoader} from './node_modules/three/build/OBJLoader.js';
+//import { MTLLoader } from './node_modules/three/build/MTLLoader.js';
+import {OBJLoader} from 'three/addons/loaders/OBJLoader.js';
+import { MTLLoader } from 'three/addons/loaders/MTLLoader.js';
 
 const canvas = document.querySelector('#c');
 const renderer = new THREE.WebGLRenderer();
@@ -15,10 +18,11 @@ camera.position.z=3;
 
 const scene = new THREE.Scene();
 
-const boxWidth = 1;
-const boxHeight = 1;
-const boxDepth = 1;
-const geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
+const boxWidth = 5;
+const boxHeight = 5;
+const boxDepth = 5;
+const geometryCube = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
+const geometry = new THREE.TetrahedronGeometry(1, 0);
 
 const loader = new THREE.TextureLoader();
 const texture = loader.load('crest of flames.jpg');
@@ -56,6 +60,16 @@ const cubes = [
     });
 }
 
+{
+    const loader = new THREE.TextureLoader();
+    const texture = loader.load(
+        'autumn_field_puresky.jpg',
+        () => {
+            texture.mapping = THREE.EquirectangularReflectionMapping;
+            texture.colorSpace = THREE.SRGBColorSpace;
+            scene.background = texture;
+        });
+}
 
 function render(time){
     time *= 0.001;
