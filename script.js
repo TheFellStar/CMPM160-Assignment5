@@ -15,10 +15,10 @@ const near = 0.1;
 const far = 100;
 const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
 
-camera.position.set(0, 10, 20);
+camera.position.set(0, 40, 0);
 
 const controls = new OrbitControls(camera, canvas);
-controls.target.set(0,5,0);
+controls.target.set(0,0,0);
 controls.update();
 
 const scene = new THREE.Scene();
@@ -27,7 +27,7 @@ const boxWidth = 4;
 const boxHeight = 4;
 const boxDepth = 4;
 const geometryCube = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
-const geometry = new THREE.TetrahedronGeometry(5, 0);
+const geometry = new THREE.TetrahedronGeometry(1, 0);
 const geometrySphere = new THREE.SphereGeometry(3, 32, 16);
 
 const loader = new THREE.TextureLoader();
@@ -36,8 +36,8 @@ texture.coloreSpace = THREE.SRGBColorSpace;
 
 {
     //ground stuff
-    const planeSize = 40;
-    const groundTexture = loader.load('ground.png');
+    const planeSize = 80;
+    const groundTexture = loader.load('ground.jpeg');
     groundTexture.wrapS = THREE.RepeatWrapping;
     groundTexture.wrapT = THREE.RepeatWrapping;
     groundTexture.magFilter = THREE.NearestFilter;
@@ -51,6 +51,7 @@ texture.coloreSpace = THREE.SRGBColorSpace;
     });
     const mesh = new THREE.Mesh(planeGeo, planeMat);
     mesh.rotation.x = Math.PI * -.5;
+    mesh.position.set(0,-2,0);
     scene.add(mesh);
 }
 
@@ -92,22 +93,26 @@ renderer.render(scene, camera);
 requestAnimationFrame(render);
 
 const triangles = [
-    makeInstance(geometry, 0x44aa88,  0, 5, 0, material),
-    makeInstance(geometry, 0x8844aa, -5, 5, 0, null),
-    makeInstance(geometry, 0xaa8844,  5, 5, 0, null),
+    makeInstance(geometry, 0x44aa88,  -5, 1, 2, material),
+    makeInstance(geometry, 0x8844aa, -20, 1, 23, null),
+    makeInstance(geometry, 0xaa8844,  23, 1, -21, null),
 ];
 
 const g_map=[
-    [1,1,1,1,1,1,1,1,1,1],
-    [1,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,1],
-    [1,1,1,1,1,1,1,1,1,1],
+    [1,0,1,1,1,1,1,1,1,1,1,1,1,1],
+    [1,0,1,0,0,0,0,0,1,0,0,1,0,1],
+    [1,0,0,0,1,1,1,0,0,0,1,0,0,1],
+    [1,0,1,0,1,0,1,1,0,1,0,0,0,1],
+    [1,0,1,0,1,0,0,1,0,0,0,1,0,1],
+    [1,1,0,0,1,0,0,0,1,0,1,0,0,1],
+    [1,1,0,1,0,1,0,1,0,0,1,0,1,1],
+    [1,0,0,0,0,0,0,1,0,1,0,0,1,1],
+    [1,1,1,1,0,1,1,1,1,1,0,1,0,1],
+    [1,1,0,1,0,1,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,1,0,1,0,0,1,1,0,1],
+    [1,1,1,1,1,0,0,1,0,0,1,0,0,1],
+    [1,0,0,0,0,0,0,1,0,1,0,0,1,1],
+    [1,1,1,1,1,1,0,1,1,1,1,1,1,1],
 ];
 
 drawMap();
@@ -144,10 +149,10 @@ drawMap();
 }
 
 function drawMap(){
-    for(var x=0;x<10;x++){
-        for(var y=0;y<10;y++){
+    for(var x=0;x<14;x++){
+        for(var y=0;y<14;y++){
             if(g_map[x][y]==1){
-                makeInstance(geometryCube, 0xFFFFFF, x*4-20, 0, y*4-20, null);
+                makeInstance(geometryCube, 0xFFFFFF, x*4-25, 0, y*4-25, null);
             }
         }
     }
